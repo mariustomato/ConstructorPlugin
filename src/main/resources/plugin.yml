@@ -1,0 +1,25 @@
+name: Constructor
+version: '${project.version}'
+main: de.bizepus.constructor.Constructor
+api-version: 1.19
+authors: [ BizepusGigantus ]
+description: A plugin to construct structures for ressources.
+
+
+commands:
+  construct:
+    description: Builds a given construct.
+    usage: Write '/construct [Name] [Distance]' or '/c [Name] [Distance]' to build a construct
+    aliases: [ "c" ]
+  constructionlist:
+    description: A list with all possible constructions.
+    usage: Write 'constructionlist' or 'clist' to get a list of all possible constructions.
+    aliases: [ "clist" ]
+
+permissions:
+    de.constructor.build:
+      description: The permission to build a given construct.
+      default: not op
+    de.constructor.list:
+      description: The permission to see all possible constructions.
+      default: not op
