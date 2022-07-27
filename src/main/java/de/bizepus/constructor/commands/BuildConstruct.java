@@ -1,6 +1,7 @@
 package de.bizepus.constructor.commands;
 
 import de.bizepus.constructor.Constructor;
+import de.bizepus.constructor.constructions.NetherHighway;
 import de.bizepus.constructor.constructions.SubwayTunnel;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -13,10 +14,10 @@ public class BuildConstruct implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player && args.length == 2) {
             Player player = (Player) sender;
-            if (!player.hasPermission("de.constructor.build")) {
-                player.sendMessage(Constructor.PREFIX + "You don't have to permission to build a construct");
-                return true;
-            }
+//            if (!player.hasPermission("de.constructor.build")) {
+//                player.sendMessage(Constructor.PREFIX + "You don't have to permission to build a construct");
+//                return true;
+//            }
             Location currentLoc = player.getLocation();
             currentLoc.setY(currentLoc.getY() - 1);
             int distance = -1;
@@ -42,14 +43,18 @@ public class BuildConstruct implements CommandExecutor {
     private void findConstruct(String constr, Player player, int amount) {
         switch (constr) {
             case "SubwayTunnel":
-                SubwayTunnel construct = new SubwayTunnel(player, amount);
-                if (construct.checkRessources()) {
-                    construct.create();
-                    player.sendMessage(Constructor.PREFIX + construct.getName() + "successfully built.");
+                SubwayTunnel subwayTunnel = new SubwayTunnel(player, amount);
+                if (subwayTunnel.checkRessources()) {
+                    subwayTunnel.create();
+                    player.sendMessage(Constructor.PREFIX + subwayTunnel.getName() + " successfully built.");
                 }
                 break;
             case "NetherHighway":
-                player.sendMessage(Constructor.PREFIX + "Coming soon.");
+                NetherHighway netherHighway = new NetherHighway(player, amount);
+                if (netherHighway.checkRessources()) {
+                    netherHighway.create();
+                    player.sendMessage(Constructor.PREFIX + netherHighway.getName() + " successfully built.");
+                }
                 break;
             default:
                 player.sendMessage(Constructor.PREFIX + "This construct does not exist.");
