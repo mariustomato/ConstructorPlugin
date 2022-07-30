@@ -15,6 +15,8 @@ commands:
     description: A list with all possible constructions.
     usage: Write 'constructionlist' or 'clist' to get a list of all possible constructions.
     aliases: [ "clist" ]
+  //set:
+    description: does stuff.
 
 permissions:
     de.constructor.build:

@@ -22,6 +22,7 @@ public class BuildConstruct implements CommandExecutor {
             currentLoc.setY(currentLoc.getY() - 1);
             int distance = -1;
             String construct = args[0];
+            Object test = new SubwayTunnel(player, 5);
             try {
                 distance = Integer.parseInt(args[1]);
             } catch (NumberFormatException e) {

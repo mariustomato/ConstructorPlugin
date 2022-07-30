@@ -214,7 +214,7 @@ public class SubwayTunnel {
         }
     }
 
-    public static void removeItems(Inventory inventory, Material type, int value) {
+    private static void removeItems(Inventory inventory, Material type, int value) {
         if (value <= 0) return;
         int size = inventory.getSize();
         for (int slot = 0; slot < size; slot++) {
