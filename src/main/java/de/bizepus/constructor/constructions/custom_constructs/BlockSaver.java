@@ -1,6 +1,10 @@
 package de.bizepus.constructor.constructions.custom_constructs;
 
 import de.bizepus.constructor.Constructor;
+import de.bizepus.constructor.utils.BlocksToFile;
+import de.bizepus.constructor.utils.FileConfig;
+import de.bizepus.constructor.utils.LocationSet;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -8,6 +12,7 @@ import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -24,19 +29,49 @@ public class BlockSaver implements CommandExecutor, Listener {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        //if (label.equalsIgnoreCase("//set") && args.length == 1) {
+        if (!(sender instanceof Player)) {
+            sender.sendMessage(Constructor.PREFIX + "§cNot possible!");
+            return true;
+        }
+        if (label.equalsIgnoreCase("//save") && args.length == 1) {
+            if (args[0].contains(":") || args[0].contains(";")) {
+                sender.sendMessage(Constructor.PREFIX + "Don't use ';' or ':' in the Construction-Name");
+            }
+            FileConfig fileConfig = new FileConfig("constructions.yml");
+
+            if (Constructor.consturctions.contains(args[0]) && fileConfig.getString(args[0]).equals("empty")) {
+                sender.sendMessage(Constructor.PREFIX + "This name is already chosen!");
+                return true;
+            }
+
+            String toSave = BlocksToFile.saveBlocks(copiedBlocks, (Player) sender);
+            fileConfig.set(args[0], toSave);
+            String[] data = fileConfig.getString(args[0]).split("Blockdata");
+            for (String str : data) {
+                Constructor.INSTANCE.log(str);
+            }
+            fileConfig.safeConfig();
+        }
+        if (label.equalsIgnoreCase("//set")) {
             try {
                 final Material material = Material.valueOf(args[0]);
-                sender.sendMessage("before if 1 ; " + copiedBlocks.isEmpty());
                 if (!copiedBlocks.isEmpty()) {
-                    sender.sendMessage("if 1");
                     copiedBlocks.forEach(block -> block.setType(material));
                 }
             } catch (IllegalArgumentException e) {
                 sender.sendMessage("This block does not exist!");
                 return true;
             }
-        //}
+        }
+        if (label.equalsIgnoreCase("//delete") && args.length == 1) {
+            FileConfig config = new FileConfig("constructions.yml");
+            if (config.contains(args[0])) {
+                config.set(args[0], "empty");
+            } else {
+                sender.sendMessage(Constructor.PREFIX + "This construct does not exist!");
+                return true;
+            }
+        }
         return true;
     }
 
@@ -50,6 +85,10 @@ public class BlockSaver implements CommandExecutor, Listener {
         }
         Location loc = event.getClickedBlock().getLocation();
         ItemStack mainItem = event.getPlayer().getInventory().getItemInMainHand();
+        if (event.getPlayer().getGameMode().equals(GameMode.CREATIVE) || event.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+            event.getPlayer().getWorld().getBlockAt(event.getClickedBlock().getLocation()).setType(event.getClickedBlock().getType());
+        }
+
         if (loc.equals(prevFirstLoc) || loc.equals(prevSecondLoc)) {
             return;
         }
@@ -70,6 +109,7 @@ public class BlockSaver implements CommandExecutor, Listener {
 
             if (coordinates[0] != null && coordinates[1] != null) {
                 calcBlocks(event.getPlayer().getWorld());
+                Constructor.markedSpots.put(event.getPlayer().getUniqueId(), new LocationSet(prevFirstLoc, prevSecondLoc));
             }
         }
     }

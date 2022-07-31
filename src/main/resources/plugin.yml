@@ -17,6 +17,7 @@ commands:
     aliases: [ "clist" ]
   //set:
     description: does stuff.
+    aliases: [ "//save", "//delete" ]
 
 permissions:
     de.constructor.build:
