@@ -19,6 +19,8 @@ public class BlocksToFile {
         data.append(";");
         data.append(locSet.getSecond().toString());
         data.append(";");
+        data.append(player.getFacing());
+        data.append(";");
         blocks.forEach(block -> data
                 .append("Blockdata:{")
                 .append("Location:x=")

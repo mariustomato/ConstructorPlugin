@@ -5,6 +5,9 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -14,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class CustomConstructor {
+public class CustomConstructor implements CommandExecutor {
     private final CustomConstructorUtil util;
     private final String name;
     private final Player player;
@@ -105,5 +108,15 @@ public class CustomConstructor {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        sender.sendMessage(util.getPlayerFacing().toString());
+        sender.sendMessage(util.getHeight() + "");
+        sender.sendMessage(util.getName());
+        sender.sendMessage(util.getFirstVector().toString());
+        sender.sendMessage(util.getSecondVector().toString());
+        return true;
     }
 }

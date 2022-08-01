@@ -18,6 +18,8 @@ commands:
   //set:
     description: does stuff.
     aliases: [ "//save", "//delete" ]
+  test:
+    description: Testing.
 
 permissions:
     de.constructor.build:

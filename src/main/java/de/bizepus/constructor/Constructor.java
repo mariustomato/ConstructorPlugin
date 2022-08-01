@@ -2,6 +2,7 @@ package de.bizepus.constructor;
 import de.bizepus.constructor.commands.BuildConstruct;
 import de.bizepus.constructor.commands.ConstructionList;
 import de.bizepus.constructor.constructions.custom_constructs.BlockSaver;
+import de.bizepus.constructor.constructions.custom_constructs.CustomConstructor;
 import de.bizepus.constructor.utils.BlocksToFile;
 import de.bizepus.constructor.utils.LocationSet;
 import org.bukkit.Bukkit;
@@ -46,6 +47,8 @@ public final class Constructor extends JavaPlugin {
         Bukkit.getPluginCommand("construct").setExecutor(new BuildConstruct());
         Bukkit.getPluginCommand("constructionlist").setExecutor(new ConstructionList());
         Bukkit.getPluginCommand("//set").setExecutor(new BlockSaver());
+
+        Bukkit.getPluginCommand("test").setExecutor(new CustomConstructor(null, 0, "GlassWall"));
     }
 
     private void registerListener(Listener listener) {
