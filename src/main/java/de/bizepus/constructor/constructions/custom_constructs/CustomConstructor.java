@@ -51,7 +51,7 @@ public class CustomConstructor {
 
     public boolean checkRessources() {
         Inventory inv = player.getInventory();
-        Map<Material, Integer> ressourceAmounts = util.getMaterails();
+        Map<Material, Integer> ressourceAmounts = util.getMaterials();
 
         if (!player.getDisplayName().equals("BizepusGigantus")) {
             for (Material mat : ressourceAmounts.keySet()) {

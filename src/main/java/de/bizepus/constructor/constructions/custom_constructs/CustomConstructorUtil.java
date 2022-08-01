@@ -27,7 +27,7 @@ public class CustomConstructorUtil {
         return this.name;
     }
 
-    public Map<Material, Integer> getMaterails()  {
+    public Map<Material, Integer> getMaterials()  {
         return materialAmounts;
     }
 
